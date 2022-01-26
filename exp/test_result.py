@@ -66,4 +66,15 @@ expected = [
         'description': 'Get the latest national, international, and political news at USATODAY.com'
     },
 
+    {
+        'title': 'Newsmax - Breaking News | News Videos | Politics, Health ...',
+        'breadcrumb_url': 'https://www.newsmax.com',
+        'description': 'Newsmax.com reports today\'s news headlines, live news stream, news videos from Americans and global readers seeking the latest in current events, politics, U.S., world news, health, finance, and more.'
+    },
+
+    {
+        'title': 'MSNBC News - Breaking News and News Today | Latest News',
+        'breadcrumb_url': 'https://www.msnbc.com',
+        'description': 'MSNBC breaking news and the latest news for today. Get daily news from local news reporters and world news updates with live audio & video from our team.'
+    }
 ]
