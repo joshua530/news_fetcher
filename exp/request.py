@@ -16,6 +16,3 @@ def get(keywords: Union[list, tuple]) -> str:
     })
     response_text = req.text
     return response_text
-
-
-get(('news', 'latest', 'agriculture'))
