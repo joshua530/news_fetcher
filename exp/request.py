@@ -1,7 +1,8 @@
 import requests
+from typing import Union
 
 
-def get(keywords: list) -> str:
+def get(keywords: Union[list, tuple]) -> str:
     if type(keywords).__name__ != 'list' and type(keywords).__name__ != 'tuple':
         raise TypeError(
             'Invalid keywords type. Only a tuple or list should be used')
