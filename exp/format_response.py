@@ -77,8 +77,11 @@ def format_data(the_data: list, type: str = "plain_text") -> str:
     Formats string obtained as response in the required
 
     Accepted formats are: xml, plain text and YAML
+
+    If no format is provided, the default format is plain text
     """
-    if type.lower() not in ["xml", "plain_text", "yaml"]:
+    type = type.lower()
+    if type not in ["xml", "plain_text", "yaml"]:
         raise ValueError(
             "Invalid format type {}. Allowed types are xml, plain_text and yaml",
             type,
@@ -86,6 +89,9 @@ def format_data(the_data: list, type: str = "plain_text") -> str:
 
     if type == "plain_text":
         return format_plain_text(the_data)
+    elif type == "xml":
+        return format_xml(the_data)
+    return ""
 
 
 def format_plain_text(the_data: list) -> str:
@@ -115,6 +121,33 @@ def format_plain_text(the_data: list) -> str:
     return all_results
 
 
+def format_xml(data: list):
+    all_results = '<?xml version="1.0" encoding="UTF-8"?>\n<results>\n'
+    result_shell = (
+        "<result>\n<title>{title}</title>\n<breadcrumb_url>{breadcrumb_url}</breadcrumb_url>\n"
+        "<description>{description}</description>\n<site_links>{site_links}</site_links>\n</result>"
+    )
+    site_link_shell = "<link><name>{name}</name><url>{url}</url></link>"
+
+    for result in data:
+        tmp_links = ""
+        for link in result["site_links"]:
+            tmp_link = site_link_shell.format(name=link["name"], url=link["url"])
+            tmp_links += tmp_link + "\n"
+        if tmp_links != "":
+            tmp_links = "\n" + tmp_links
+
+        tmp_result = result_shell.format(
+            title=result["title"],
+            breadcrumb_url=result["breadcrumb_url"],
+            description=result["description"],
+            site_links=tmp_links,
+        )
+        all_results += tmp_result + "\n"
+    all_results += "</results>\n"
+    return all_results
+
+
 def test_error_on_invalid_type():
     print("Exception thrown on invalid argument = ", end="")
     try:
@@ -131,12 +164,23 @@ def test_txt_formatting(data: list):
     ) as txt_format:
         expected = txt_format.read()
 
-    actual = format_data(data)
+    actual = format_data(data, "plain_text")
 
     print("Text formatting = ", end="")
     print("Success") if expected == actual else print("Failed")
 
 
-# test_parser(expected)
-# test_error_on_invalid_type()
-# test_txt_formatting(expected)
+def test_xml_formatting(data: list):
+    with open(
+        os.path.dirname(os.path.abspath(__file__)) + "/formatted_data_xml"
+    ) as xml_format:
+        expected = xml_format.read()
+    actual = format_data(data, "xml")
+    print("XML formatting = ", end="")
+    print("Success") if actual == expected else print("Failed")
+
+
+test_parser(expected)
+test_error_on_invalid_type()
+test_txt_formatting(expected)
+test_xml_formatting(expected)
