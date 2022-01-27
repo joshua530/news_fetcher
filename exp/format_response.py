@@ -50,22 +50,26 @@ def parse_response(html_str: str, type: str) -> list:
     return formatted_data
 
 
-def test_parser():
+def test_parser(comparision_data: list):
     test_data = os.path.dirname(os.path.realpath(__file__)) + "/test_data.html"
     with open(test_data) as test_data:
         contents = test_data.read()
 
     parsed_data = parse_response(contents, "text")
 
-    for i in range(len(parsed_data)):
-        p = parsed_data[i]
-        e = expected[i]
-        for k in p.keys():
-            if p[k] != e[k]:
-                print("parsed_data[{}] != expected[{}], index={}".format(k, k, i))
-            else:
-                print("parsed_data[{}] == expected[{}], index={}".format(k, k, i))
-        print()
+    # for debugging
+    # for i in range(len(parsed_data)):
+    #     p = parsed_data[i]
+    #     e = expected[i]
+    #     for k in p.keys():
+    #         if p[k] != e[k]:
+    #             print("parsed_data[{}] != expected[{}], index={}".format(k, k, i))
+    #         else:
+    #             print("parsed_data[{}] == expected[{}], index={}".format(k, k, i))
+    #     print()
+
+    print("Parsing data = ", end="")
+    print("Success") if parsed_data == comparision_data else print("Failed")
 
 
-test_parser()
+test_parser(expected)
