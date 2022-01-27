@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<results>
+<result>
+<title>Fox News - Breaking News Updates | Latest News Headlines ...</title>
+<breadcrumb_url>www.foxnews.com</breadcrumb_url>
+<description>Fox News official website with news, politics, entertainment, tech, science, health, travel, lifestyle, and sports.</description>
+<site_links>
+<link><name>Politics</name><url>https://www.foxnews.com/politics</url></link>
+<link><name>U.S.</name><url>https://www.foxnews.com/us</url></link>
+<link><name>World</name><url>https://www.foxnews.com/world/</url></link>
+<link><name>Entertainment</name><url>https://www.foxnews.com/entertainment</url></link>
+<link><name>Opinion</name><url>https://www.foxnews.com/opinion</url></link>
+<link><name>Watch Live</name><url>https://video.foxnews.com/v/5614615980001/</url></link>
+</site_links>
+</result>
+<result>
+<title>CNN - Breaking News, Latest News and Videos</title>
+<breadcrumb_url>https://www.cnn.com</breadcrumb_url>
+<description>View the latest news and breaking news today for U.S., world, weather, entertainment, politics and health at CNN.com.</description>
+<site_links></site_links>
+</result>
+<result>
+<title>NBC News - Breaking News & Top Stories - Latest World, US ...</title>
+<breadcrumb_url>https://www.nbcnews.com</breadcrumb_url>
+<description>Go to NBCNews.com for breaking news, videos, and the latest top stories in world news, business, politics, health and pop culture.</description>
+<site_links></site_links>
+</result>
+<result>
+<title>ABC News - Breaking News, Latest News, Headlines & Videos</title>
+<breadcrumb_url>https://abcnews.go.com</breadcrumb_url>
+<description>Your trusted source for breaking news, analysis, exclusive interviews, headlines, and videos at ABCNews.com</description>
+<site_links></site_links>
+</result>
+<result>
+<title>News: U.S. and World News Headlines : NPR</title>
+<breadcrumb_url>https://www.npr.org › sections › news</breadcrumb_url>
+<description>NPR news, audio, and podcasts. Coverage of breaking stories, national and world news, politics, business, science, technology, and extended coverage of major national and world events.</description>
+<site_links></site_links>
+</result>
+<result>
+<title>CBS News - Breaking news, 24/7 live streaming news & top ...</title>
+<breadcrumb_url>https://www.cbsnews.com</breadcrumb_url>
+<description>Watch CBSN the live news stream from CBS News and get the latest, breaking news headlines of the day for national news and world news today.</description>
+<site_links></site_links>
+</result>
+<result>
+<title>MSNBC News - Breaking News and News Today | Latest News</title>
+<breadcrumb_url>https://www.msnbc.com</breadcrumb_url>
+<description>MSNBC breaking news and the latest news for today. Get daily news from local news reporters and world news updates with live audio & video from our team.</description>
+<site_links></site_links>
+</result>
+<result>
+<title>New York Post - Breaking News, Latest US & World Headlines</title>
+<breadcrumb_url>https://nypost.com › news</breadcrumb_url>
+<description>Read today's latest breaking news from the US and around the world on the New York Post. Robert F Kennedy Jr. compared vaccine mandates to Nazi Germany during a rally at the National Mall in ...</description>
+<site_links></site_links>
+</result>
+<result>
+<title>Newsmax - Breaking News | News Videos | Politics, Health ...</title>
+<breadcrumb_url>https://www.newsmax.com</breadcrumb_url>
+<description>Newsmax.com reports today's news headlines, live news stream, news videos from Americans and global readers seeking the latest in current events, politics, U.S., world news, health, finance, and more.</description>
+<site_links></site_links>
+</result>
+<result>
+<title>The Latest US and World News - USATODAY.com</title>
+<breadcrumb_url>https://www.usatoday.com › news</breadcrumb_url>
+<description>Get the latest national, international, and political news at USATODAY.com</description>
+<site_links></site_links>
+</result>
+</results>
