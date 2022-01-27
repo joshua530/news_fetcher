@@ -72,4 +72,65 @@ def test_parser(comparision_data: list):
     print("Success") if parsed_data == comparision_data else print("Failed")
 
 
-test_parser(expected)
+def format_data(the_data: list, type: str = "plain_text") -> str:
+    """
+    Formats string obtained as response in the required
+
+    Accepted formats are: xml, plain text and YAML
+    """
+    if type.lower() not in ["xml", "plain_text", "yaml"]:
+        raise ValueError(
+            "Invalid format type {}. Allowed types are xml, plain_text and yaml",
+            type,
+        )
+    all_results = ""
+
+    result_skeleton = '"title": "{title}";\n"breadcrumb_url": "{bcrumb_url}";\n"description": "{desc}";\n"site_links":{site_links}\n;;\n'
+    site_link_skeleton = '"name": "{name}", "url": "{url}";'
+
+    for result in the_data:
+        tmp_site_links = "\n"
+        for link in result["site_links"]:
+            current_link = site_link_skeleton.format(name=link["name"], url=link["url"])
+            tmp_site_links += current_link + "\n"
+        tmp_site_links = tmp_site_links.rstrip()
+
+        #  fill in the skeleton
+        tmp_placeholder = result_skeleton.format(
+            title=result["title"],
+            bcrumb_url=result["breadcrumb_url"],
+            desc=result["description"],
+            site_links=tmp_site_links,
+        )
+        all_results += tmp_placeholder + "\n"
+    all_results = all_results.strip()
+    all_results += "\n"
+
+    return all_results
+
+
+def test_error_on_invalid_type():
+    print("Exception thrown on invalid argument = ", end="")
+    try:
+        format_data([], "html")
+    except ValueError:
+        print("Success")
+    else:
+        print("Failed")
+
+
+def test_txt_formatting(data: list):
+    with open(
+        os.path.dirname(os.path.abspath(__file__)) + "/formatted_data_plain_text"
+    ) as txt_format:
+        expected = txt_format.read()
+
+    actual = format_data(data)
+
+    print("Text formatting = ", end="")
+    print("Success") if expected == actual else print("Failed")
+
+
+# test_parser(expected)
+# test_error_on_invalid_type()
+# test_txt_formatting(expected)
