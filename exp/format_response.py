@@ -83,6 +83,12 @@ def format_data(the_data: list, type: str = "plain_text") -> str:
             "Invalid format type {}. Allowed types are xml, plain_text and yaml",
             type,
         )
+
+    if type == "plain_text":
+        return format_plain_text(the_data)
+
+
+def format_plain_text(the_data: list) -> str:
     all_results = ""
 
     result_skeleton = '"title": "{title}";\n"breadcrumb_url": "{bcrumb_url}";\n"description": "{desc}";\n"site_links":{site_links}\n;;\n'
