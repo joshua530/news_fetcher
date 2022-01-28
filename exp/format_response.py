@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup
 # response = get(['news', 'latest', 'entertainment'])
 
 
-def parse_response(html_str: str, type: str) -> list:
+def parse_response(html_str: str) -> list:
     """
     Parses a given string into a list of the obtained results with each
     result in dictionary form
