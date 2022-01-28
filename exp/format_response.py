@@ -52,28 +52,6 @@ def parse_response(html_str: str, type: str) -> list:
     return formatted_data
 
 
-def test_parser(comparision_data: list):
-    test_data = os.path.dirname(os.path.realpath(__file__)) + "/test_data.html"
-    with open(test_data) as test_data:
-        contents = test_data.read()
-
-    parsed_data = parse_response(contents, "text")
-
-    # for debugging
-    # for i in range(len(parsed_data)):
-    #     p = parsed_data[i]
-    #     e = expected[i]
-    #     for k in p.keys():
-    #         if p[k] != e[k]:
-    #             print("parsed_data[{}] != expected[{}], index={}".format(k, k, i))
-    #         else:
-    #             print("parsed_data[{}] == expected[{}], index={}".format(k, k, i))
-    #     print()
-
-    print("Parsing data = ", end="")
-    print("Success") if parsed_data == comparision_data else print("Failed")
-
-
 def format_data(the_data: list, type: str = "plain_text") -> str:
     """
     Formats string obtained as response in the required
@@ -100,10 +78,14 @@ def format_data(the_data: list, type: str = "plain_text") -> str:
 def format_plain_text(the_data: list) -> str:
     all_results = ""
 
-    result_skeleton = '"title": "{title}";\n"breadcrumb_url": "{bcrumb_url}";\n"description": "{desc}";\n"site_links":{site_links}\n;;\n'
+    result_skeleton = (
+        '"title": "{title}";\n"breadcrumb_url": "{breadcrumb_url}";\n'
+        '"description": "{desc}";\n"site_links":{site_links}\n;;\n'
+    )
     site_link_skeleton = '"name": "{name}", "url": "{url}";'
 
     for result in the_data:
+        # compile links
         tmp_site_links = "\n"
         for link in result["site_links"]:
             current_link = site_link_skeleton.format(name=link["name"], url=link["url"])
@@ -113,7 +95,7 @@ def format_plain_text(the_data: list) -> str:
         #  fill in the skeleton
         tmp_placeholder = result_skeleton.format(
             title=result["title"],
-            bcrumb_url=result["breadcrumb_url"],
+            breadcrumb_url=result["breadcrumb_url"],
             desc=result["description"],
             site_links=tmp_site_links,
         )
@@ -133,6 +115,7 @@ def format_xml(data: list):
     site_link_shell = "<link><name>{name}</name><url>{url}</url></link>"
 
     for result in data:
+        # compile links
         tmp_links = ""
         for link in result["site_links"]:
             tmp_link = site_link_shell.format(name=link["name"], url=link["url"])
@@ -140,6 +123,7 @@ def format_xml(data: list):
         if tmp_links != "":
             tmp_links = "\n" + tmp_links
 
+        # compile single result
         tmp_result = result_shell.format(
             title=result["title"],
             breadcrumb_url=result["breadcrumb_url"],
@@ -174,7 +158,7 @@ def format_yaml(data: list) -> str:
     link_skel = "{tab_5}- name: {name}\n" "{tab_6}url: {url}"
 
     for result in data:
-        # format links
+        # compile links
         tmp_links = ' ""\n'
         if len(result["site_links"]) > 0:
             tmp_links = ""
@@ -190,8 +174,7 @@ def format_yaml(data: list) -> str:
                     + "\n"
                 )
 
-        # format result
-        # format description
+        # compile result
         tmp_result = (
             result_skel.format(
                 tab_2=two_tabs,
@@ -220,16 +203,17 @@ def format_description(
 
     A tab consists of two spaces by default
     """
-    # remove string splits
+    # replace new line characters with spaces to avoid breaking
+    # up string into unneccessary lines
     tmp_description = description.replace("\n", " ")
 
     if len(tmp_description) < line_len:
         return tab * num_tabs + tmp_description
 
     segments = []
-    # Count and split word at intervals
+    # Split sentence at intervals
     # If we are going to split a word at current position, move back, look
-    # for the beginning of the current word, and split string before the
+    # for the beginning of the word, and perform split before the
     # word begins
     current = 0
     while current < len(tmp_description):
@@ -237,23 +221,26 @@ def format_description(
 
         # ensure we don't break a word into two or carry over punctuation mark to the next line
         if not tmp_description[next_breaking_point].isspace():
+            # seek the nearest index that will help us split the sentence appropriately
             while (
                 tmp_description[next_breaking_point].isalnum()
                 or tmp_description[next_breaking_point] in string.punctuation
             ):
                 next_breaking_point -= 1
 
+        # split the sentence at the current position and seek the next splitting point
         segments.append(tmp_description[current : next_breaking_point + 1])
         next_breaking_point += 1
 
+        # ensure the next splitting point isn't past the end of the sentence
         if next_breaking_point + line_len >= len(tmp_description):
             segments.append(tmp_description[next_breaking_point:])
             current = next_breaking_point + line_len
         else:
             current = next_breaking_point
 
-    # remove whitespace from splits
-    # remove multiple spaces
+    # remove whitespace from the start and end of split segments
+    # remove multiple spaces from within the segments
     # append tabs for formatting
     for i in range(len(segments)):
         segments[i] = segments[i].strip()
@@ -265,12 +252,40 @@ def format_description(
 
 
 def quote_str_with_special_chars(the_string: str) -> str:
+    """
+    Encloses string with special characters in double quotes
+    """
     special_chars = ":{}[]&*#?|-><!%@`"
     for char in special_chars:
         if the_string.find(char) != -1:
             the_string = '"{}"'.format(the_string)
             break
     return the_string
+
+
+########################### TESTS #################################
+
+
+def test_parser(comparision_data: list):
+    test_data = os.path.dirname(os.path.realpath(__file__)) + "/test_data.html"
+    with open(test_data) as test_data:
+        contents = test_data.read()
+
+    parsed_data = parse_response(contents, "text")
+
+    # for debugging
+    # for i in range(len(parsed_data)):
+    #     p = parsed_data[i]
+    #     e = expected[i]
+    #     for k in p.keys():
+    #         if p[k] != e[k]:
+    #             print("parsed_data[{}] != expected[{}], index={}".format(k, k, i))
+    #         else:
+    #             print("parsed_data[{}] == expected[{}], index={}".format(k, k, i))
+    #     print()
+
+    print("Parsing data = ", end="")
+    print("Success") if parsed_data == comparision_data else print("Failed")
 
 
 def test_quote_str_with_special_chars():
