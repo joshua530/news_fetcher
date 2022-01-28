@@ -4,15 +4,19 @@ import requests
 
 
 def get(keywords: Union[list, tuple]) -> str:
+    """
+    response comes back in gibberish form.
+    Not currently parsable in the way that the business logic
+    is implemented
+    """
     keywords_type = type(keywords).__name__
     if keywords_type != "list" and keywords_type != "tuple":
         raise TypeError("Only a tuple or list is allowed for the keywords")
 
-    query = "https://www.duckduckgo.com?q={}&t=h".format("+".join(keywords))
+    query = "https://duckduckgo.com/html/?q={}&t=h_&ia=web".format("+".join(keywords))
     response = requests.get(
         query,
         headers={
-            "Accept-type": "text/html; application/xml; application/xhtml",
             "User-agent": "python-bot",
             "Accept-encoding": "gzip, deflate, br",
         },
