@@ -5,7 +5,7 @@ import requests
 
 def get(keywords: Union[list, tuple]) -> str:
     keywords_type = type(keywords).__name__
-    if keywords_type != "list" or keywords_type != "tuple":
+    if keywords_type != "list" and keywords_type != "tuple":
         raise TypeError("Only a tuple or list is allowed for the keywords")
 
     query = "https://www.duckduckgo.com?q={}&t=h".format("+".join(keywords))
